@@ -6,4 +6,6 @@ locals {
   instance_type = local.env == "prod" ? "t3.small" : "t3.micro"
 
   desired_capacity = local.env == "prod" ? 2 : 1
+
+  root_volume_size = terraform.workspace == "prod" ? 50 : 30
 }

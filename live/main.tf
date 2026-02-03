@@ -14,7 +14,8 @@ module "compute" {
   instance_type = local.instance_type
   desired       = local.desired_capacity
 
-  alb_sg_id = module.alb.alb_sg_id
+  alb_sg_id        = module.alb.alb_sg_id
+  root_volume_size = local.root_volume_size
 }
 
 module "alb" {
