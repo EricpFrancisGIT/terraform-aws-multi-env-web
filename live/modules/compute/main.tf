@@ -40,7 +40,18 @@ resource "aws_launch_template" "this" {
   image_id      = data.aws_ami.al2023.id
   instance_type = var.instance_type
 
+
   vpc_security_group_ids = [aws_security_group.web.id]
+
+  dynamic "iam_instance_profile" {
+    for_each = var.existing_instance_profile_name != "" ? [1] : []
+    content {
+      name = var.existing_instance_profile_name
+    }
+  }
+
+
+
 
   # ✅ Enforce IMDSv2
   metadata_options {
@@ -89,6 +100,7 @@ resource "aws_autoscaling_group" "this" {
   launch_template {
     id      = aws_launch_template.this.id
     version = "$Latest"
+
   }
 
   # ✅ Use ALB health checks
@@ -113,3 +125,25 @@ resource "aws_autoscaling_group" "this" {
     create_before_destroy = true
   }
 }
+#resource "aws_iam_role" "ssm" {
+# name = "${var.name}-ssm-role"
+
+#assume_role_policy = jsonencode({
+# Version = "2012-10-17",
+#Statement = [{
+# Effect    = "Allow",
+# Principal = { Service = "ec2.amazonaws.com" },
+# Action    = "sts:AssumeRole"
+#}]
+#})
+#}
+
+#resource "aws_iam_role_policy_attachment" "ssm_core" {
+# role       = aws_iam_role.ssm.name
+#policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+#}
+
+#resource "aws_iam_instance_profile" "ssm" {
+# name = "${var.name}-ssm-profile"
+# role = aws_iam_role.ssm.name
+#}
