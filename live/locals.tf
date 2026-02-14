@@ -8,4 +8,5 @@ locals {
   desired_capacity = local.env == "prod" ? 2 : 1
 
   root_volume_size = terraform.workspace == "prod" ? 50 : 30
+
 }

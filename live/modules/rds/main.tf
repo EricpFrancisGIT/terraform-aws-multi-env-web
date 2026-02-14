@@ -1,6 +1,9 @@
 resource "random_password" "db" {
   length  = 24
   special = true
+
+  # Exclude characters RDS rejects: / @ " space
+  override_special = "!#$%&'()*+,-.:;<=>?[]^_{|}~"
 }
 
 resource "aws_db_subnet_group" "this" {

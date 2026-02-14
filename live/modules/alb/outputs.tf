@@ -9,3 +9,10 @@ output "alb_sg_id" {
 output "target_group_arn" {
   value = aws_lb_target_group.http.arn
 }
+output "lb_arn_suffix" {
+  value = aws_lb.this.arn_suffix
+}
+
+output "tg_arn_suffix" {
+  value = aws_lb_target_group.http.arn_suffix
+}

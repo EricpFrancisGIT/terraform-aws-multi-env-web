@@ -80,7 +80,7 @@ dnf update -y
 dnf install -y httpd
 
 systemctl enable httpd
-echo "<h1>${var.name} (${terraform.workspace})</h1>" > /var/www/html/index.html
+echo "Welcome to the <h1>${var.name} (${terraform.workspace})</h1>" > /var/www/html/index.html
 systemctl restart httpd
 
 # Helpful debug log location:
@@ -92,9 +92,9 @@ EOF
 
 resource "aws_autoscaling_group" "this" {
   name                = "${var.name}-asg"
-  desired_capacity    = var.desired
-  min_size            = 1
-  max_size            = 3
+  desired_capacity    = 3
+  min_size            = 3
+  max_size            = 6
   vpc_zone_identifier = var.subnet_ids
 
   launch_template {
